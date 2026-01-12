@@ -1,0 +1,72 @@
+{
+  "kind": "singleType",
+  "collectionName": "rules",
+  "info": {
+    "singularName": "rule",
+    "pluralName": "rules",
+    "displayName": "Rule"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heading_1": {
+      "type": "blocks"
+    },
+    "heading_2": {
+      "type": "blocks"
+    },
+    "heading_3": {
+      "type": "blocks"
+    },
+    "heading_4": {
+      "type": "blocks"
+    },
+    "heading_5_1": {
+      "type": "blocks"
+    },
+    "heading_5": {
+      "type": "blocks"
+    },
+    "heading_6": {
+      "type": "blocks"
+    },
+    "heading_7": {
+      "type": "blocks"
+    },
+    "heading_8": {
+      "type": "blocks"
+    },
+    "heading_9": {
+      "type": "blocks"
+    },
+    "heading_10": {
+      "type": "blocks"
+    },
+    "heading_11": {
+      "type": "blocks"
+    },
+    "heading_12": {
+      "type": "blocks"
+    },
+    "heading_13": {
+      "type": "blocks"
+    },
+    "heading_14": {
+      "type": "blocks"
+    },
+    "heading_15": {
+      "type": "blocks"
+    },
+    "heading_16": {
+      "type": "blocks"
+    },
+    "heading_17": {
+      "type": "blocks"
+    },
+    "heading_18": {
+      "type": "blocks"
+    }
+  }
+}
