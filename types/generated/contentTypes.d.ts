@@ -373,35 +373,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiAboutAbout extends Struct.SingleTypeSchema {
-  collectionName: 'abouts';
-  info: {
-    description: 'Write about yourself and the content you create';
-    displayName: 'About';
-    pluralName: 'abouts';
-    singularName: 'about';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    blocks: Schema.Attribute.DynamicZone<
-      ['shared.media', 'shared.quote', 'shared.rich-text', 'shared.slider']
-    >;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::about.about'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   collectionName: 'articles';
   info: {
@@ -532,6 +503,92 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     siteDescription: Schema.Attribute.Text & Schema.Attribute.Required;
     siteName: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiHomeHome extends Struct.SingleTypeSchema {
+  collectionName: 'homes';
+  info: {
+    displayName: 'Home';
+    pluralName: 'homes';
+    singularName: 'home';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::home.home'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    text_1: Schema.Attribute.Blocks;
+    text_10: Schema.Attribute.Blocks;
+    text_11: Schema.Attribute.Blocks;
+    text_12: Schema.Attribute.Blocks;
+    text_13: Schema.Attribute.Blocks;
+    text_14: Schema.Attribute.Blocks;
+    text_15: Schema.Attribute.Blocks;
+    text_16: Schema.Attribute.Blocks;
+    text_17: Schema.Attribute.Blocks;
+    text_18: Schema.Attribute.Blocks;
+    text_19: Schema.Attribute.Blocks;
+    text_2: Schema.Attribute.Blocks;
+    text_3: Schema.Attribute.Blocks;
+    text_4: Schema.Attribute.Blocks;
+    text_5: Schema.Attribute.Blocks;
+    text_6: Schema.Attribute.Blocks;
+    text_7: Schema.Attribute.Blocks;
+    text_8: Schema.Attribute.Blocks;
+    text_9: Schema.Attribute.Blocks;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiRuleRule extends Struct.SingleTypeSchema {
+  collectionName: 'rules';
+  info: {
+    displayName: 'Rule';
+    pluralName: 'rules';
+    singularName: 'rule';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    heading_1: Schema.Attribute.Blocks;
+    heading_10: Schema.Attribute.Blocks;
+    heading_11: Schema.Attribute.Blocks;
+    heading_12: Schema.Attribute.Blocks;
+    heading_13: Schema.Attribute.Blocks;
+    heading_14: Schema.Attribute.Blocks;
+    heading_15: Schema.Attribute.Blocks;
+    heading_16: Schema.Attribute.Blocks;
+    heading_17: Schema.Attribute.Blocks;
+    heading_18: Schema.Attribute.Blocks;
+    heading_2: Schema.Attribute.Blocks;
+    heading_3: Schema.Attribute.Blocks;
+    heading_4: Schema.Attribute.Blocks;
+    heading_5: Schema.Attribute.Blocks;
+    heading_5_1: Schema.Attribute.Blocks;
+    heading_6: Schema.Attribute.Blocks;
+    heading_7: Schema.Attribute.Blocks;
+    heading_8: Schema.Attribute.Blocks;
+    heading_9: Schema.Attribute.Blocks;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::rule.rule'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1047,11 +1104,12 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::about.about': ApiAboutAbout;
       'api::article.article': ApiArticleArticle;
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
       'api::global.global': ApiGlobalGlobal;
+      'api::home.home': ApiHomeHome;
+      'api::rule.rule': ApiRuleRule;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

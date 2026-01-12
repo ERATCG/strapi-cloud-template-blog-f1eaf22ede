@@ -8,6 +8,12 @@
     "deploy": "strapi deploy",
     "develop": "strapi develop",
     "seed:example": "node ./scripts/seed.js",
+    "export:data": "node ./scripts/export-data.js",
+    "import:cloud": "node ./scripts/import-to-cloud.js",
+    "sync:cloud": "node ./scripts/sync-to-cloud.js",
+    "permissions:rule": "node ./scripts/set-rule-permissions.js",
+    "prepare:cpanel": "node ./scripts/prepare-cpanel.js",
+    "fix:blocks": "node ./scripts/fix-corrupted-blocks.js",
     "start": "strapi start",
     "strapi": "strapi"
   },
