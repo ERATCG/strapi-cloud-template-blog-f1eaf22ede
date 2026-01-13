@@ -2,7 +2,7 @@
 
 /**
  * Script to fix corrupted blocks data in Strapi
- * This removes invalid selection/cursor data from blocks fields
+ * Removes invalid selection/cursor data from blocks fields
  * 
  * Run: node scripts/fix-corrupted-blocks.js
  */
@@ -18,7 +18,7 @@ async function fixCorruptedBlocks() {
   try {
     console.log('🔧 Fixing corrupted blocks data...\n');
 
-    // Function to clean blocks data
+    // Function to clean blocks data - removes editor-specific metadata
     function cleanBlocks(blocks) {
       if (!blocks || !Array.isArray(blocks)) {
         return blocks;
@@ -26,15 +26,14 @@ async function fixCorruptedBlocks() {
 
       return blocks.map(block => {
         if (typeof block === 'object' && block !== null) {
-          // Remove selection, operations, history, and other editor-specific data
           const cleaned = { ...block };
           
-          // Remove Slate editor-specific properties that can cause issues
-          delete cleaned.selection;
-          delete cleaned.operations;
-          delete cleaned.history;
+          // Remove Slate editor-specific properties that cause errors
+          delete cleaned.selection;      // Invalid cursor positions
+          delete cleaned.operations;     // Editor operations history
+          delete cleaned.history;        // Undo/redo history
           delete cleaned.lastInsertedLinkPath;
-          delete cleaned.marks;
+          delete cleaned.marks;           // Formatting marks
           
           // Recursively clean children if they exist
           if (cleaned.children && Array.isArray(cleaned.children)) {
@@ -52,13 +51,10 @@ async function fixCorruptedBlocks() {
     try {
       const home = await app.documents('api::home.home').findOne({});
       if (home) {
-        const fieldsToClean = [
-          'heroheading', 'herosubheading', 'herobelowsubheading',
-          'concu_heading', 'concu_subheading', 'concu_para_1', 'concu_para_2',
-          'concu_below_para', 'concu_slider_1', 'concu_slider_2', 'concu_slider_3',
-          'comment_heading', 'comment_para_1', 'comment_para_2', 'comment_para_3',
-          'construisez_heading', 'construisez_para_1', 'construisez_para_2', 'construisez_para_3'
-        ];
+        // Get all fields that are blocks type (text_1 through text_19)
+        const fieldsToClean = Object.keys(home).filter(key => 
+          key.startsWith('text_') && Array.isArray(home[key])
+        );
 
         let needsUpdate = false;
         const updateData = {};
@@ -69,6 +65,7 @@ async function fixCorruptedBlocks() {
             if (JSON.stringify(cleaned) !== JSON.stringify(home[field])) {
               updateData[field] = cleaned;
               needsUpdate = true;
+              console.log(`  🔧 Cleaning field: ${field}`);
             }
           }
         }
@@ -78,7 +75,7 @@ async function fixCorruptedBlocks() {
             documentId: home.id,
             data: updateData,
           });
-          console.log('  ✅ Fixed Home blocks data');
+          console.log(`  ✅ Fixed ${Object.keys(updateData).length} field(s) in Home`);
         } else {
           console.log('  ℹ️  No corrupted data found in Home');
         }
@@ -92,6 +89,7 @@ async function fixCorruptedBlocks() {
     try {
       const rule = await app.documents('api::rule.rule').findOne({});
       if (rule) {
+        // Get all fields that are blocks type (heading_1 through heading_18, heading_5_1)
         const fieldsToClean = Object.keys(rule).filter(key => 
           key.startsWith('heading_') && Array.isArray(rule[key])
         );
@@ -105,6 +103,7 @@ async function fixCorruptedBlocks() {
             if (JSON.stringify(cleaned) !== JSON.stringify(rule[field])) {
               updateData[field] = cleaned;
               needsUpdate = true;
+              console.log(`  🔧 Cleaning field: ${field}`);
             }
           }
         }
@@ -114,7 +113,7 @@ async function fixCorruptedBlocks() {
             documentId: rule.id,
             data: updateData,
           });
-          console.log('  ✅ Fixed Rule blocks data');
+          console.log(`  ✅ Fixed ${Object.keys(updateData).length} field(s) in Rule`);
         } else {
           console.log('  ℹ️  No corrupted data found in Rule');
         }
@@ -140,6 +139,7 @@ async function fixCorruptedBlocks() {
               data: { blocks: cleaned },
             });
             fixedCount++;
+            console.log(`  🔧 Fixed article: ${article.title || article.id}`);
           }
         }
       }
@@ -174,9 +174,9 @@ async function fixCorruptedBlocks() {
     }
 
     console.log('\n✨ Cleanup complete!');
-    console.log('\n💡 Tip: If errors persist, try:');
-    console.log('   1. Clear browser cache');
-    console.log('   2. Restart Strapi server');
+    console.log('\n💡 Next steps:');
+    console.log('   1. Restart Strapi server');
+    console.log('   2. Clear browser cache or use incognito mode');
     console.log('   3. Try editing the content again');
 
   } catch (error) {
@@ -188,4 +188,3 @@ async function fixCorruptedBlocks() {
 }
 
 fixCorruptedBlocks();
-
